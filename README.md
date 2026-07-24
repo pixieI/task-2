@@ -26,6 +26,105 @@ for real-time messaging).
   subnet — a guest Wi-Fi network with "client isolation" enabled will block
   this even though everyone shows the same SSID; see Troubleshooting).
 
+  # File Checklist — Make Sure Everything Is in the Right Place
+
+Use this before running `npm start`. Most "Cannot GET /" or "Cannot find
+module" errors come from a file being missing, misnamed, or in the wrong
+folder — not from the code itself.
+
+## Required folder structure (exact)
+
+```
+lan-chat/                  <- root project folder
+├── server.js
+├── package.json
+├── README.md
+└── public/                <- MUST be named exactly "public", lowercase
+    ├── index.html
+    ├── style.css
+    └── client.js
+```
+
+Six files total, in exactly this layout. `public/` sits **directly inside**
+`lan-chat/`, at the same level as `server.js` — not nested any deeper, not
+a sibling of `lan-chat/`.
+
+## 2. Verify it yourself (copy-paste these)
+
+### Windows (Command Prompt)
+
+```
+cd lan-chat
+dir
+```
+Expected output includes: `server.js`, `package.json`, `README.md`, `public`
+
+```
+cd public
+dir
+```
+Expected output includes: `index.html`, `style.css`, `client.js`
+
+```
+cd ..
+```
+(go back to `lan-chat` before running `npm start`)
+
+### macOS / Linux (Terminal)
+
+```
+cd lan-chat
+ls
+```
+Expected: `server.js  package.json  README.md  public`
+
+```
+ls public
+```
+Expected: `index.html  style.css  client.js`
+
+## 3. Common mistakes that break things
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| `Cannot GET /` in browser | `public/` folder missing, misnamed, or empty | Recheck step 2; recreate the folder if needed |
+| File shows as `index.html.txt` in `dir`/`ls` | Saved from Notepad with "Save as type: Text Documents" | Re-save choosing **"All Files"** as the type, type the full name `index.html` yourself |
+| `Cannot find module 'express'` or `'ws'` | `npm install` wasn't run, or was run in the wrong folder | `cd` into `lan-chat` (the folder with `package.json`) first, then `npm install` |
+| `The system cannot find the path specified` on `cd lan-chat` | You're not in the parent folder, or the folder has a different name/typo | Run `dir` (Windows) or `ls` (Mac/Linux) first to see the real folder name |
+| Page loads but chat won't connect | `server.js` and `public/` are in different folders | `public/` must be a direct subfolder of wherever `server.js` lives |
+| Blank page, no styling | `style.css` or `client.js` missing/misnamed inside `public/` | Recheck step 2's inner `dir`/`ls` output |
+
+## 4. Sanity check before starting the server
+
+Run this from inside `lan-chat/` — if all three commands succeed, you're
+ready to run `npm start`:
+
+**Windows:**
+```
+if exist server.js (echo server.js OK) else (echo MISSING server.js)
+if exist package.json (echo package.json OK) else (echo MISSING package.json)
+if exist public\index.html (echo public\index.html OK) else (echo MISSING public\index.html)
+```
+
+**macOS / Linux:**
+```
+[ -f server.js ] && echo "server.js OK" || echo "MISSING server.js"
+[ -f package.json ] && echo "package.json OK" || echo "MISSING package.json"
+[ -f public/index.html ] && echo "public/index.html OK" || echo "MISSING public/index.html"
+```
+
+If any line prints `MISSING ...`, that file is either not saved, saved with
+the wrong name/extension, or sitting in the wrong folder — fix that one item
+and re-run the check before starting the server.
+
+## 5. Then run
+
+```
+cd lan-chat
+npm install
+npm start
+```
+
 ## 1. Install and start the server
 
 ```bash
