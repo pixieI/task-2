@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Channel · LAN Chat</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Join screen -->
+  <main id="join-screen" class="screen">
+    <div class="join-card">
+      <div class="dial" aria-hidden="true">
+        <div class="dial-ring"></div>
+        <div class="dial-tick"></div>
+      </div>
+      <p class="eyebrow">local frequency</p>
+      <h1>Tune in</h1>
+      <p class="sub">Pick a handle to join everyone currently on this network.</p>
+      <form id="join-form" autocomplete="off">
+        <input id="username-input" type="text" maxlength="24" placeholder="Your handle" required />
+        <button type="submit">Join channel</button>
+      </form>
+      <p id="join-error" class="join-error" hidden></p>
+      <p class="hint">Anyone on this Wi-Fi / LAN with the link can join.</p>
+    </div>
+  </main>
+
+  <!-- Chat screen -->
+  <div id="chat-screen" class="screen chat-layout" hidden>
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="status-dot" id="conn-dot" aria-hidden="true"></span>
+        <div>
+          <p class="eyebrow">status</p>
+          <p id="conn-label" class="conn-label">connecting…</p>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <p class="eyebrow">on this channel — <span id="user-count">0</span></p>
+        <ul id="user-list" class="user-list"></ul>
+      </div>
+      <div class="sidebar-footer">
+        <p class="me-label">you are</p>
+        <p id="me-username" class="me-username"></p>
+      </div>
+    </aside>
+
+    <section class="main-panel">
+      <header class="main-header">
+        <h1>#channel</h1>
+        <p id="typing-indicator" class="typing-indicator" aria-live="polite"></p>
+      </header>
+
+      <div id="messages" class="messages" aria-live="polite"></div>
+
+      <form id="message-form" class="composer" autocomplete="off">
+        <input id="message-input" type="text" maxlength="2000" placeholder="Send a message…" />
+        <button type="submit" aria-label="Send">Send</button>
+      </form>
+    </section>
+  </div>
+
+  <script src="client.js"></script>
+</body>
+</html>
